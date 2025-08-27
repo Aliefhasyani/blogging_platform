@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Post;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 use PharIo\Manifest\Author;
@@ -23,5 +25,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->middleware(['auth','role:admin'])->name('admin.dashboard');
 Route::get('/author/dashboard',[AuthorController::class,'dashboard'])->middleware(['auth','role:author'])->name('author.dashboard');
+
+Route::get('/posts',[PostController::class,'index'])->name('posts');
 
 require __DIR__.'/auth.php';
