@@ -11,4 +11,10 @@ class PostController extends Controller
         $posts = Post::with('tag')->get();
         return view('posts',compact('posts'));
     }
+
+    public function show($id){
+        $post = Post::with('tag')->findOrFail($id);
+
+        return view('post_content',compact('post'));
+    }
 }
