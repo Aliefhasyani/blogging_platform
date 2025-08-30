@@ -10,18 +10,25 @@
             <h5 class="card-title fw-bold">{{ $post->name }}</h5>
             
             <div class="mb-3">
+          
               @foreach($post->tag as $tag)
                 <span class="badge bg-secondary me-1">{{ $tag->name }}</span>
               @endforeach
             </div>
 
-            <a href="{{ route('show.post',$post->id) }}" class="card-link">Read More</a>
-            <a href="#" class="card-link">Another link</a>
+            <p class="text-muted mb-2">
+              <i class="bi bi-person-circle me-1"></i> 
+              <span class="fw-semibold">By {{ $post->user->name }}</span>
+            </p>
+
+            <a href="{{ route('show.post',$post->id) }}" class="card-link btn btn-sm btn-primary">Read More</a>
+  
           </div>
         </div>
       </div>
     @endforeach
   </div>
 </div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </x-app-layout>
-  

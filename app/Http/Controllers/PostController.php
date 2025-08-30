@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index(){
-        $posts = Post::with('tag')->get();
+        $posts = Post::with(['tag','user'])->get();
         return view('posts',compact('posts'));
     }
 

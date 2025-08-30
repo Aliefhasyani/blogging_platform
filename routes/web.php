@@ -29,4 +29,6 @@ Route::get('/author/dashboard',[AuthorController::class,'dashboard'])->middlewar
 Route::get('/posts',[PostController::class,'index'])->name('posts');
 Route::get('/post/{id}',[PostController::class,'show'])->name('show.post');
 
+
+
 require __DIR__.'/auth.php';
