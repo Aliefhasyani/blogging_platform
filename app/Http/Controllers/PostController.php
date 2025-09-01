@@ -27,4 +27,14 @@ class PostController extends Controller
 
         return view('posts',compact('tag_post','tags','posts'));
     }
+
+    public function destroy($id){
+        $post = Post::findOrFail($id);
+
+        $post->delete();
+
+        return redirect()->route('posts');
+    }
+
+  
 }

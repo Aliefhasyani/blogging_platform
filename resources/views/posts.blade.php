@@ -39,6 +39,16 @@
                   class="btn btn-sm btn-primary rounded-pill px-3">
                   Read More <i class="bi bi-arrow-right"></i>
                 </a>
+                <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
+                    @method('DELETE')
+                    @csrf
+                    @if(Auth::id() == $post->user->id)
+                      <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                        <i class="bi bi-trash me-1"></i> Delete
+                      </button>
+                    @endif
+                </form>
+
               </div>
 
             </div>
