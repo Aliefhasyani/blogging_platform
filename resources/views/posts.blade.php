@@ -42,9 +42,13 @@
                 <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
                     @method('DELETE')
                     @csrf
-                    @if(Auth::id() == $post->user->id)
+                    @if(Auth::id() == $post->user_id)
                       <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
                         <i class="bi bi-trash me-1"></i> Delete
+                      </button>
+                    @elseif(Auth::user()->role == 'admin')
+                      <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                          <i class="bi bi-trash me-1"></i> Delete
                       </button>
                     @endif
                 </form>
@@ -55,8 +59,13 @@
           </div>
         </div>
         @empty
-          <p class="text-center">No Post Found</p>
+            <div class="text-center py-5">
+              <i class="bi bi-archive text-muted display-1 d-block mb-3"></i>
+              <h5 class="fw-bold text-secondary">No Posts Found</h5>
+              <p class="text-muted">Try creating a new post or check back later.</p>
+            </div>
         @endforelse
+
       </div>
 
   </div>
