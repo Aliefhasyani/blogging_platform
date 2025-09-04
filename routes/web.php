@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->middleware(['auth','role:admin'])->name('admin.dashboard');
 Route::get('/author/dashboard',[AuthorController::class,'dashboard'])->middleware(['auth','role:author'])->name('author.dashboard');
 
+Route::get('admin/posts/management',[AdminController::class,'postManagement'])->middleware(['auth','role:admin'])->name('post.management');
+
 Route::get('/posts',[PostController::class,'index'])->name('posts');
 Route::get('/post/{id}',[PostController::class,'show'])->name('show.post');
 Route::delete('/post/delete/{id}',[PostController::class,'destroy'])->name('post.delete');

@@ -14,4 +14,6 @@
             </div>
         </div>
     </div>
+
+    <a href="{{route('post.management')}}">Posts Management</a>
 </x-app-layout>
