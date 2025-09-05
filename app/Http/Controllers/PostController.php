@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -34,6 +35,22 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts');
+    }
+
+    public function search(Request $request){
+        $query = $request->keyword;
+      
+        $posts = Post::with('user')
+                        ->where('name' , 'like' , '%' . $query . '%')
+                        ->orWhereHas('user', function($author) use($query){
+                            $author->where('name' , 'like' , '%' . $query . '%');
+                        })->get();
+
+        $postsCount = Post::count('id');
+        $usersCount = User::count('id');
+      
+
+        return view('admin.post_management',compact('postsCount','usersCount','posts'));
     }
 
   

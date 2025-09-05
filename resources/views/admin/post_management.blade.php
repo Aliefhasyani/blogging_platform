@@ -242,8 +242,10 @@
         </div>
         
         <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search posts...">
+            <form action="{{route('post.managementSearch')}}" method="GET">
+                <i class="fas fa-search"></i>
+                <input type="search" placeholder="Search posts..." name="keyword">
+            </form>
         </div>
         
         <div class="table-container">
