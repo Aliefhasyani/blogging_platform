@@ -29,14 +29,23 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
         }
         
         .header h1 {
             font-weight: 700;
             color: #1e293b;
             margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
         }
         
         .stats {
@@ -194,6 +203,28 @@
             color: #94a3b8;
         }
         
+        .btn-outline-primary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #64748b;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+        
         @media (max-width: 768px) {
             .stats {
                 flex-direction: column;
@@ -205,6 +236,11 @@
                 gap: 1rem;
             }
             
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
             .actions {
                 flex-wrap: wrap;
             }
@@ -213,84 +249,93 @@
 </head>
 <body>
     <x-app-layout>
-    <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-file-alt me-2"></i>Posts Management</h1>
-            <button class="btn btn-primary"><i class="fas fa-plus me-1"></i> New Post</button>
-        </div>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-file"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>{{$postsCount}}</h3>
-                    <p>Total Posts</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>{{$usersCount}}</h3>
-                    <p>Active Authors</p>
+        <div class="container">
+            <div class="header">
+                <h1><i class="fas fa-file-alt me-2"></i>Posts Management</h1>
+                <div class="header-actions">
+                    <a href="{{url()->previous()}}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-1"></i> Go back
+                    </a>
+                    <a href="{{route('test')}}" class="btn btn-outline-primary"><i class="fas fa-plus me-1"></i> New Post</a>
                 </div>
             </div>
             
-        </div>
-        
-        <div class="search-box">
-            <form action="{{route('post.managementSearch')}}" method="GET">
-                <i class="fas fa-search"></i>
-                <input type="search" placeholder="Search posts..." name="keyword">
-            </form>
-        </div>
-        
-        <div class="table-container">
-            <div class="table-responsive">
-                <table class="table minimal-table align-middle">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Post Name</th>
-                            <th>Author</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($posts as $post)
-                        <tr>
-                            <td>{{$post->id}}</td>
-                            <td><a href="#" class="post-title">{{$post->name}}</a></td>
-                            <td>
-                                <div class="author-badge">
-                                    <div class="">{{$post->user->name}}</div>
-                                    <span></span>
-                                </div>
-                            </td>
-                            <td>{{$post->created_at}}</td>
-                            <td>
-                                <div class="actions">
-                                    <a href="#" class="btn-icon"><i class="fas fa-eye"></i></a>
-                                    <a href="#" class="btn-icon"><i class="fas fa-edit"></i></a>
-                                    <a href="#" class="btn-icon"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                        
-                        
-                    </tbody>
-                </table>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{$postsCount}}</h3>
+                        <p>Total Posts</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{$usersCount}}</h3>
+                        <p>Active Authors</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-        
+            
+            <div class="search-box">
+                <form action="{{route('post.managementSearch')}}" method="GET">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Search posts..." name="keyword">
+                </form>
+            </div>
+            
+            <div class="table-container">
+                @if($posts->count() > 0)
+                    <div class="table-responsive">
+                        <table class="table minimal-table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Post Name</th>
+                                    <th>Author</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($posts as $post)
+                                    <tr>
+                                        <td>{{ $post->id }}</td>
+                                        <td><a href="{{route('show.post',$post->id)}}" class="post-title">{{ $post->name }}</a></td>
+                                        <td>
+                                            <div class="author-badge">
+                                                <div class="author-avatar">{{ substr($post->user->name, 0, 1) }}</div>
+                                                <span>{{ $post->user->name }}</span>
+                                            </div>
+                                        </td>
+                                        <td>{{ $post->created_at->format('M j, Y') }}</td>
+                                        <td>
+                                            <div class="actions">
+                                                <a href="#" class="btn-icon"><i class="fas fa-eye"></i></a>
+                                                <a href="#" class="btn-icon"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn-icon"><i class="fas fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <div class="empty-state">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>No Posts Found</h3>
+                        <p>There are no posts to display at the moment.</p>
+                    </div>
+                @endif
+            </div>
        
-</x-app-layout>
+        </div>
+    </x-app-layout>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>

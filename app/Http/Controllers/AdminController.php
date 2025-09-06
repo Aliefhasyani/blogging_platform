@@ -27,4 +27,8 @@ class AdminController extends Controller
         $usersCount = User::count('id');
         return view('admin.post_management',compact('posts','postsCount','usersCount'));
     }
+
+    public function test(){
+        return view('hello');
+    }
 }

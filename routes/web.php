@@ -34,6 +34,7 @@ Route::get('/post/{id}',[PostController::class,'show'])->name('show.post');
 Route::delete('/post/delete/{id}',[PostController::class,'destroy'])->name('post.delete');
 Route::get('/post/tag/{id}',[PostController::class,'searchByTag'])->name('show.tag');
 
+Route::get('/geloo',[AdminController::class,'test'])->name('test');
 
 
 

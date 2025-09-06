@@ -53,5 +53,7 @@ class PostController extends Controller
         return view('admin.post_management',compact('postsCount','usersCount','posts'));
     }
 
+ 
+
   
 }
