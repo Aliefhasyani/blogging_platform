@@ -8,7 +8,7 @@ use PHPUnit\Metadata\Uses;
 class Comment extends Model
 {
     protected $table = 'comments';
-
+    protected $fillable = ['user_id','post_id','comment'];
 
     public function user(){
         return $this->belongsTo(User::class);

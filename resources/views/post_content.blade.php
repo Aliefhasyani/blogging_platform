@@ -370,8 +370,9 @@
                
                 <div class="comment-form">
                     <h5>Add a comment</h5>
-                    <form>
-                        <textarea placeholder="Share your thoughts..."></textarea>
+                    <form method="POST" action="{{route('comment.create',$post->id)}}">
+                        @csrf
+                        <textarea placeholder="Share your thoughts..." name="comment"></textarea>
                         <div class="d-flex justify-content-end">
                             <button type="submit">Post Comment</button>
                         </div>
