@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index(){
-        $posts = Post::with(['tag','user'])->get();
+        $posts = Post::with(['tag','user'])->paginate(6);
         $tags = Tag::all();
         return view('posts',compact('posts','tags'));
     }
@@ -44,7 +44,7 @@ class PostController extends Controller
     public function searchByTag($id){
         $tag_post = Tag::findOrFail($id);
         $tags = Tag::all();
-        $posts = $tag_post->post;
+        $posts = $tag_post->post()->paginate(5);
 
         return view('posts',compact('tag_post','tags','posts'));
     }
@@ -64,7 +64,7 @@ class PostController extends Controller
                         ->where('name' , 'like' , '%' . $query . '%')
                         ->orWhereHas('user', function($author) use($query){
                             $author->where('name' , 'like' , '%' . $query . '%');
-                        })->get();
+                        })->paginate(6);
 
         $postsCount = Post::count('id');
         $usersCount = User::count('id');
@@ -73,7 +73,25 @@ class PostController extends Controller
         return view('admin.post_management',compact('postsCount','usersCount','posts'));
     }
 
- 
+    
+    public function create(){
+        return view('post_create');
+    }
+
+    public function store(Request $request){
+        $post = $request->validate([
+            'name' => 'required|string|max:255',
+            'content' => 'required|string|'
+        ]);
+
+        Post::create([
+            'name' => $post['name'],
+            'content'=> $post['content'],
+            'user_id' => Auth::user()->id
+        ]);
+
+        return redirect()->route('post.management');
+    }
 
   
 }

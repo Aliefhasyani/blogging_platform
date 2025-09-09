@@ -256,7 +256,7 @@
                     <a href="{{url()->previous()}}" class="btn btn-outline-primary">
                         <i class="fas fa-arrow-left me-1"></i> Go back
                     </a>
-                    <a href="{{route('test')}}" class="btn btn-outline-primary"><i class="fas fa-plus me-1"></i> New Post</a>
+                    <a href="{{route('post.create')}}" class="btn btn-outline-primary"><i class="fas fa-plus me-1"></i> New Post</a>
                 </div>
             </div>
             
@@ -333,7 +333,9 @@
                     </div>
                 @endif
             </div>
-       
+            <div>
+                {{$posts->links()}}
+            </div>
         </div>
     </x-app-layout>
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $table = 'posts';
+    protected $fillable = ['name','content','user_id'];
 
     public function tag(){
         return $this->belongsToMany(Tag::class);
@@ -19,4 +20,6 @@ class Post extends Model
     public function comment(){
         return $this->hasMany(Comment::class);
     }
+
+   
 }

@@ -11,7 +11,7 @@ use PharIo\Manifest\Author;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,8 +35,10 @@ Route::delete('/post/delete/{id}',[PostController::class,'destroy'])->name('post
 Route::get('/post/tag/{id}',[PostController::class,'searchByTag'])->name('show.tag');
 Route::post('/post/comment/{id}',[PostController::class,'createComment'])->name('comment.create');
 
-Route::get('/geloo',[AdminController::class,'test'])->name('test');
 
+
+Route::get('/admin/post/create',[PostController::class,'create'])->name('post.create');
+Route::post('/admin/post/store',[PostController::class,'store'])->name('post.store');
 
 
 

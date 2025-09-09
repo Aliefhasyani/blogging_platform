@@ -22,13 +22,12 @@ class AdminController extends Controller
 
     public function postManagement(){
 
-        $posts = Post::with('user')->get();
+        $posts = Post::with('user')->paginate(10);
         $postsCount = Post::count('id');
         $usersCount = User::count('id');
         return view('admin.post_management',compact('posts','postsCount','usersCount'));
     }
 
-    public function test(){
-        return view('hello');
-    }
+  
+
 }
