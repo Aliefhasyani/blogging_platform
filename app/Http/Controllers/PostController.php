@@ -22,8 +22,6 @@ class PostController extends Controller
     public function show($id){
         $post = Post::with(['tag','comment','user'])->findOrFail($id);
         
-   
-        
         return view('post_content',compact('post'));
     }
 
@@ -91,6 +89,23 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('post.management');
+    }
+
+    public function createReply(Request $request,$id){
+        $reply = $request->validate([
+            'comment' =>'required|string|max:255',
+        ]);
+
+        $parentComment = Comment::findOrFail($id);
+
+        Comment::create([
+            'user_id' => Auth::user()->id,
+            'post_id' => $parentComment->post_id,
+            'comment' => $reply['comment'],
+            'parent_id' => $parentComment->id,
+        ]);
+
+        return redirect()->route('show.post',$parentComment->post_id);
     }
 
   

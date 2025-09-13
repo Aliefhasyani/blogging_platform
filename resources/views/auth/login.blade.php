@@ -245,6 +245,37 @@
                 gap: 1rem;
             }
         }
+
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+            font-size: 16px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--light-text);
+            font-size: 16px;
+        }
+
+        .form-control {
+            padding: 12px 45px; 
+            padding-left: 45px;
+            padding-right: 45px; 
+        }
+
     </style>
 </head>
 <body>
@@ -278,14 +309,17 @@
                 </div>
                 
        
-                <div class="form-group">
+               <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock input-icon"></i>
-                        <input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+                        <input id="password" class="form-control" type="password" name="password" required autocomplete="new-password" placeholder="Enter your password">
+                        <span class="password-toggle" onclick="togglePassword('password')">
+                            <i class="fas fa-eye"></i>
+                        </span>
                     </div>
-                   
                 </div>
+
                 
                
                 <div class="remember-forgot">
@@ -334,6 +368,21 @@
                 }, index * 100);
             });
         });
+
+          function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const toggleIcon = passwordField.nextElementSibling.querySelector('i');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
     </script>
 </body>
 </html>

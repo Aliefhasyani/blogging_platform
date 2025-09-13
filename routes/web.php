@@ -30,7 +30,7 @@ Route::get('admin/posts/management',[AdminController::class,'postManagement'])->
 Route::get('admin/posts/management/search',[PostController::class,'search'])->middleware(['auth','role:admin'])->name('post.managementSearch');
 
 Route::get('/posts',[PostController::class,'index'])->name('posts');
-Route::get('/post/{id}',[PostController::class,'show'])->name('show.post');
+Route::get('/post/{id}',[PostController::class,'show'])->middleware(['auth'])->name('show.post');
 Route::delete('/post/delete/{id}',[PostController::class,'destroy'])->name('post.delete');
 Route::get('/post/tag/{id}',[PostController::class,'searchByTag'])->name('show.tag');
 Route::post('/post/comment/{id}',[PostController::class,'createComment'])->name('comment.create');

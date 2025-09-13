@@ -369,6 +369,7 @@
                 
                
                 <div class="comment-form">
+                    @auth
                     <h5>Add a comment</h5>
                     <form method="POST" action="{{route('comment.create',$post->id)}}">
                         @csrf
@@ -377,6 +378,17 @@
                             <button type="submit">Post Comment</button>
                         </div>
                     </form>
+                    @endauth
+                    @guest
+                     <h5>Add a comment</h5>
+                    <form method="POST" action="{{route('comment.create',$post->id)}}">
+                        @csrf
+                        <textarea placeholder="Please login first" name="comment" disabled></textarea>
+                        <div class="d-flex justify-content-end">
+                            <p>Please login before posting a comment</p>
+                        </div>
+                    </form>
+                    @endguest
                 </div>
                 
                 

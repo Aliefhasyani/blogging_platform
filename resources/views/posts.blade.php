@@ -297,10 +297,13 @@
                   Read More <i class="fas fa-arrow-right ms-2"></i>
                 </a>
                 
-                @if(Auth::id() == $post->user_id || Auth::user()->role == 'admin')
-                  <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
+                @if(!Auth::check())
+                 <div></div>
+                @elseif( Auth::id() == $post->user_id || Auth::user()->role == 'admin')
+                 <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
                     @method('DELETE')
                     @csrf
+                   
                     <button type="submit" class="delete-btn">
                       <i class="fas fa-trash me-1"></i> Delete
                     </button>
