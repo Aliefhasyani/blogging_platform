@@ -258,7 +258,7 @@
   <x-app-layout>
     <div class="container">
       <div class="header">
-        <h1>Explore Posts</h1>
+        <h1 class="display-4">Explore Posts</h1>
         <p>Discover insights, stories, and knowledge shared by our community</p>
       </div>
       

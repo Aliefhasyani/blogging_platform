@@ -322,6 +322,34 @@
                 margin-bottom: 1rem;
             }
         }
+
+        .reply-form {
+            margin-left: 3rem; 
+        }
+
+        .reply-form textarea {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+
+        .reply-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .reply-form button:hover {
+            background-color: var(--secondary-color);
+        }
+
     </style>
 </head>
 <body>
@@ -405,15 +433,20 @@
                                     {{ $comment->comment }}
                                 </p>
                                 <div class="comment-actions">
-                                    <a href="#" class="comment-action">
-                                        <i class="far fa-heart"></i> Like
-                                    </a>
-                                    <a href="#" class="comment-action">
+                                    <a href="#" class="comment-action"><i class="far fa-heart"></i> Like</a>
+                                    <a href="#" class="comment-action reply-toggle" data-target="reply-form-{{ $comment->id }}">
                                         <i class="far fa-comment"></i> Reply
                                     </a>
                                 </div>
+
+                                <form id="reply-form-{{ $comment->id }}"  method="POST" class="reply-form mt-2 d-none">
+                                    @csrf
+                                    <textarea name="comment" placeholder="Write a reply..." rows="2"></textarea>
+                                    <button type="submit" class="btn btn-sm btn-primary mt-1">Reply</button>
+                                </form>
                             </div>
                         </div>
+
                     @empty
                         <div class="empty-comments">
                             <i class="far fa-comments"></i>
@@ -441,6 +474,17 @@
                     }, index * 100);
                 });
             });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.reply-toggle').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    const form = document.getElementById(targetId);
+                    form.classList.toggle('d-none');
+                });
+            });
+        });
         </script>
     </x-app-layout>
 </body>
