@@ -34,6 +34,7 @@ Route::get('/post/{id}',[PostController::class,'show'])->middleware(['auth'])->n
 Route::delete('/post/delete/{id}',[PostController::class,'destroy'])->name('post.delete');
 Route::get('/post/tag/{id}',[PostController::class,'searchByTag'])->name('show.tag');
 Route::post('/post/comment/{id}',[PostController::class,'createComment'])->name('comment.create');
+Route::post('/post/comment/reply/{id}',[PostController::class,'createReply'])->name('reply.create');
 
 
 
