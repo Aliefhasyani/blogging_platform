@@ -87,6 +87,92 @@
             resize: vertical;
         }
         
+        /* Tag Selector Styles */
+        .tag-selector-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tag-selector {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            background-color: white;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 120px;
+        }
+        
+        .tag-selector:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .tag-selector option {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .tag-selector option:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .tag-selector option:checked {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tag-selector-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--light-text);
+        }
+        
+        .tag-help {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            min-height: 40px;
+        }
+        
+        .tag-pill {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            padding: 0.4rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .tag-pill i {
+            margin-left: 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .tag-pill i:hover {
+            color: var(--secondary-color);
+        }
+       
+        
         .user-info {
             background-color: var(--primary-light);
             border-radius: 10px;
@@ -160,6 +246,10 @@
             .form-header h1 {
                 font-size: 1.75rem;
             }
+            
+            .tag-selector {
+                min-height: 100px;
+            }
         }
     </style>
 </head>
@@ -192,6 +282,29 @@
                         </div>
                     </div>
                     
+                 
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-tags me-1"></i> Tags
+                        </label>
+                        <div class="tag-selector-container">
+                            <select name="tag[]" multiple class="tag-selector" id="tag-selector">
+                                @foreach($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="tag-selector-icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="tag-help">
+                            <i class="fas fa-info-circle me-1"></i> Hold Ctrl/Cmd to select multiple tags
+                        </div>
+                        <div class="selected-tags" id="selected-tags">
+                        
+                        </div>
+                    </div>
+                    
                     <div class="user-info">
                         <p><i class="fas fa-user-circle me-1"></i> This post will be made under the name "{{Auth::user()->name}}"</p>
                     </div>
@@ -208,14 +321,13 @@
         </div>
 
         <script>
-    
+ 
             const textarea = document.getElementById('post-content');
             const charCount = document.getElementById('char-count');
             
             textarea.addEventListener('input', function() {
                 charCount.textContent = this.value.length;
-                
-              
+          
                 if (this.value.length > 1000) {
                     charCount.style.color = '#ef4444';
                 } else if (this.value.length > 500) {
@@ -225,7 +337,45 @@
                 }
             });
             
-
+      
+            const tagSelector = document.getElementById('tag-selector');
+            const selectedTagsContainer = document.getElementById('selected-tags');
+            
+            
+            function updateSelectedTags() {
+                selectedTagsContainer.innerHTML = '';
+                const selectedOptions = Array.from(tagSelector.selectedOptions);
+                
+                if (selectedOptions.length === 0) {
+                    selectedTagsContainer.innerHTML = '<span class="text-muted">No tags selected</span>';
+                    return;
+                }
+                
+                selectedOptions.forEach(option => {
+                    const tagPill = document.createElement('div');
+                    tagPill.className = 'tag-pill';
+                    tagPill.innerHTML = `
+                        ${option.text}
+                        <i class="fas fa-times" data-value="${option.value}"></i>
+                    `;
+                    selectedTagsContainer.appendChild(tagPill);
+                });
+                
+                
+                document.querySelectorAll('.tag-pill i').forEach(icon => {
+                    icon.addEventListener('click', function() {
+                        const value = this.getAttribute('data-value');
+                        const option = tagSelector.querySelector(`option[value="${value}"]`);
+                        option.selected = false;
+                        updateSelectedTags();
+                    });
+                });
+            }
+             
+            tagSelector.addEventListener('change', updateSelectedTags);
+            updateSelectedTags();
+            
+  
             const form = document.querySelector('form');
             form.addEventListener('submit', function(e) {
                 const title = document.getElementById('post-title').value.trim();

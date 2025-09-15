@@ -73,22 +73,28 @@ class PostController extends Controller
 
     
     public function create(){
-        return view('post_create');
+        $tags = Tag::all();
+        return view('post_create',compact('tags'));
     }
 
     public function store(Request $request){
-        $post = $request->validate([
+ 
+        
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'content' => 'required|string|'
+            'content' => 'required|string|',
+            'tag' => 'required|array',
         ]);
 
-        Post::create([
-            'name' => $post['name'],
-            'content'=> $post['content'],
+        $post = Post::create([
+            'name' => $validated['name'],
+            'content'=> $validated['content'],
             'user_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('post.management');
+        $post->tag()->attach($validated['tag']);
+
+        return redirect()->route('post.create');
     }
 
     public function createReply(Request $request,$id){

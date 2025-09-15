@@ -374,17 +374,17 @@
                     </a>
                 </div>
 
-                <form action="{{ route('reply.create',$comment->id) }}" 
-                      id="reply-form-{{ $comment->id }}" 
-                      method="POST" 
-                      class="reply-form mt-2 d-none">
+                <form action="{{ route('reply.create',$comment->id) }}"  id="reply-form-{{ $comment->id }}" method="POST" class="reply-form mt-2 d-none">
                     @csrf
                     <textarea name="comment" placeholder="Write a reply..." rows="2"></textarea>
                     <button type="submit" class="btn btn-sm btn-primary mt-1">Reply</button>
                 </form>
+                       
+                
+                     
 
              
-               @if($comment->replies->count())
+
                     <div class="replies ms-5 mt-2">
                         @foreach($comment->replies as $reply)
                             <div class="reply mb-2">
@@ -405,7 +405,7 @@
                             </div>
                         @endforeach
                     </div>
-                @endif
+              
 
             </div>
         </div>
