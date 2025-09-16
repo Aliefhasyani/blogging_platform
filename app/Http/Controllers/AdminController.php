@@ -28,6 +28,13 @@ class AdminController extends Controller
         return view('admin.post_management',compact('posts','postsCount','usersCount'));
     }
 
+
+    public function userManagement(){
+        $users = User::with('post')->paginate(10);
+        
+        return view('admin.users_management',compact('users'));
+    }
+
   
 
 }

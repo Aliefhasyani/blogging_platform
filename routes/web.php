@@ -29,6 +29,8 @@ Route::get('/author/dashboard',[AuthorController::class,'dashboard'])->middlewar
 Route::get('admin/posts/management',[AdminController::class,'postManagement'])->middleware(['auth','role:admin'])->name('post.management');
 Route::get('admin/posts/management/search',[PostController::class,'search'])->middleware(['auth','role:admin'])->name('post.managementSearch');
 
+Route::get('admin/users/management',[AdminController::class,'usermanagement'])->middleware(['auth','role:admin'])->name('user.management');
+
 Route::get('/posts',[PostController::class,'index'])->name('posts');
 Route::get('/post/{id}',[PostController::class,'show'])->middleware(['auth'])->name('show.post');
 Route::delete('/post/delete/{id}',[PostController::class,'destroy'])->name('post.delete');

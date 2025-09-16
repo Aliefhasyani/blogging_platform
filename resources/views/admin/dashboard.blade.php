@@ -7,6 +7,8 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
         :root {
             --primary-color: #4361ee;
@@ -130,11 +132,15 @@
                 </div>
                 <p class="text-muted">You have full administrative privileges to manage the platform.</p>
                 
-                <div class="admin-actions">
+               <div class="admin-actions">
                     <a href="{{route('post.management')}}" class="action-button">
-                        <i class="fas fa-file-alt"></i> Posts Management
+                       <i class="bi bi-archive-fill"></i> Posts Management
+                    </a>
+                    <a href="{{route('user.management')}}" class="action-button">
+                        <i class="bi bi-person-fill-gear"></i> Users Management
                     </a>
                 </div>
+
             </div>
         </div>
     </x-app-layout>
