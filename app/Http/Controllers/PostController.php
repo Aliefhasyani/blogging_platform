@@ -21,8 +21,14 @@ class PostController extends Controller
 
     public function show($id){
         $post = Post::with(['tag','comment','user'])->findOrFail($id);
+
+        $relatedPost = Post::where('user_id',$post->user_id)
+                            ->where('id', '!=', $post->id)
+                            ->latest()
+                            ->take(5)
+                            ->get();
         
-        return view('post_content',compact('post'));
+        return view('post_content',compact('post','relatedPost'));
     }
 
     public function createComment(Request $request,$id){

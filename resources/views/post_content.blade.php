@@ -443,22 +443,21 @@
         .related-posts {
             background: white;
             border-radius: var(--card-radius);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             padding: 2rem;
-            margin-bottom: 2rem;
+            margin-top: 2rem;
         }
 
-        .related-posts h3 {
+        .related-posts h3,
+        .related-posts h4 {
             font-weight: 700;
             color: var(--text-color);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--primary-light);
         }
 
         .related-post {
-            display: flex;
-            align-items: center;
             padding: 1rem 0;
             border-bottom: 1px solid var(--border-color);
         }
@@ -467,16 +466,12 @@
             border-bottom: none;
         }
 
-        .related-post-content {
-            flex-grow: 1;
-        }
-
         .related-post-title {
             font-weight: 600;
             color: var(--text-color);
             text-decoration: none;
-            margin-bottom: 0.25rem;
             display: block;
+            margin-bottom: 0.25rem;
         }
 
         .related-post-title:hover {
@@ -487,6 +482,40 @@
             color: var(--light-text);
             font-size: 0.85rem;
         }
+
+        .related-post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .related-post-item {
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .related-post-item:hover {
+            background: #eef2f7;
+        }
+
+        .related-post-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .related-post-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-related-posts {
+            color: #777;
+            font-style: italic;
+        }
+
+
 
         @media (max-width: 768px) {
             .post-header, .post-content, .comment-form, .comments-list {
@@ -667,23 +696,35 @@
         </div>
         
 
-        @if($post->tag->count() > 0)
+      @if($post->tag->count() > 0)
         <div class="related-posts">
-            <h3><i class="fas fa-link me-2"></i>Related Posts</h3>
-            <div class="related-post">
-                <div class="related-post-content">
-                    <a href="#" class="related-post-title">Similar topic based on #{{ $post->tag->first()->name }}</a>
-                    <div class="related-post-meta">By Author Name • 3 days ago</div>
+            <h3><i class="fas fa-link me-2"></i> Related Posts</h3>
+
+                <div class="related-post">
+                    <div class="related-post-content">
+                        <a href="#" class="related-post-title">
+                            Similar topic based on #{{ $post->tag->first()->name }}
+                        </a>
+                        <div class="related-post-meta">By {{ $post->user->name }}</div>
+                    </div>
+                </div>
+
+            
+                <h4 class="related-posts-title mt-4">Other posts by {{ $post->user->name }}</h4>
+                <div class="related-post-list">
+                    @forelse($relatedPost as $related)
+                        <div class="related-post-item">
+                            <a href="{{ route('show.post',$related->id) }}" class="related-post-link">
+                                {{ $related->name }}
+                            </a>
+                        </div>
+                    @empty
+                        <p class="no-related-posts">No other posts from this author.</p>
+                    @endforelse
                 </div>
             </div>
-            <div class="related-post">
-                <div class="related-post-content">
-                    <a href="#" class="related-post-title">Another post about this subject</a>
-                    <div class="related-post-meta">By Another Author • 1 week ago</div>
-                </div>
-            </div>
-        </div>
         @endif
+
     </div>
 
     <script>
