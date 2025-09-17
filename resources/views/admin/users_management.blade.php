@@ -241,6 +241,7 @@
             <div class="dashboard-header">
                 <h1><i class="fas fa-users me-2"></i>User Management</h1>
                 <p>Manage all registered users and their permissions</p>
+                <a href="{{route('user.create')}}" class="btn btn-outline-primary mt-4"><i class="fas fa-plus me-1"></i> New User</a>
             </div>
        
             

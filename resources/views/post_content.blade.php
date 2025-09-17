@@ -604,7 +604,7 @@
                     </button>
                 </div>
                 
-                <a href="{{ url()->previous() }}" class="btn-back">
+                <a href="{{ route('posts')}}" class="btn-back">
                     <i class="fas fa-arrow-left me-2"></i> Back to Posts
                 </a>
             </div>

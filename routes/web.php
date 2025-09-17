@@ -38,7 +38,8 @@ Route::get('/post/tag/{id}',[PostController::class,'searchByTag'])->name('show.t
 Route::post('/post/comment/{id}',[PostController::class,'createComment'])->name('comment.create');
 Route::post('/post/comment/reply/{id}',[PostController::class,'createReply'])->name('reply.create');
 
-
+Route::get('/admin/users/create',[AdminController::class,'create'])->middleware(['auth','role:admin'])->name('user.create');
+Route::post('/admin/users/store',[AdminController::class,'store'])->middleware(['auth','role:admin'])->name('user.store');
 
 Route::get('/admin/post/create',[PostController::class,'create'])->name('post.create');
 Route::post('/admin/post/store',[PostController::class,'store'])->name('post.store');

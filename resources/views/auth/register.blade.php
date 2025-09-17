@@ -267,7 +267,7 @@
                 
                 </div>
                 
-                <!-- Password -->
+      
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-with-icon">
@@ -295,7 +295,7 @@
                     </div>
                 </div>
                 
-                <!-- Confirm Password -->
+        
                 <div class="form-group">
                     <label for="password_confirmation">Confirm Password</label>
                     <div class="input-with-icon">
