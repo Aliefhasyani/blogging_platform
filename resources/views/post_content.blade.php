@@ -6,6 +6,7 @@
     <title>{{ $post->name }} | Post Detail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         :root {
             --primary-color: #4361ee;
@@ -582,6 +583,9 @@
                         <i class="far fa-comment"></i> {{ $post->comment->count() }} comments
                     </div>
                     <div class="stat">
+                        <i class="bi bi-suit-heart-fill"></i> {{ $post->likes}} likes
+                    </div>
+                    <div class="stat">
                         <i class="far fa-clock"></i> {{ $post->created_at->diffForHumans() }}
                     </div>
                 </div>
@@ -593,9 +597,12 @@
             
             <div class="post-actions">
                 <div class="action-buttons">
-                    <button class="btn-action">
-                        <i class="far fa-heart"></i> Like
-                    </button>
+                    <form method="POST" action="{{route('post.like',$post->id)}}">
+                        @csrf
+                        <button class="btn-action">
+                            <i class="far fa-heart"></i> Like
+                        </button>
+                    </form>
                     <button class="btn-action">
                         <i class="far fa-bookmark"></i> Save
                     </button>

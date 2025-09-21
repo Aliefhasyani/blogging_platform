@@ -127,5 +127,13 @@ class PostController extends Controller
         return view('post_edit',compact('post','tags'));
     }
 
+    public function like($id){
+        $post = Post::findOrFail($id);
+
+        $post->increment('likes');
+
+        return back();
+    }
+
   
 }

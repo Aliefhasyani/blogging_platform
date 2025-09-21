@@ -8,6 +8,7 @@ use App\Models\Post;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 use PharIo\Manifest\Author;
+use PHPUnit\Framework\Attributes\PostCondition;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,6 +46,8 @@ Route::get('/admin/post/edit/{id}',[PostController::class,'edit'])->middleware([
 
 Route::get('/admin/post/create',[PostController::class,'create'])->name('post.create');
 Route::post('/admin/post/store',[PostController::class,'store'])->name('post.store');
+
+Route::post('/post/like/{id}',[PostController::class,'like'])->middleware(['auth'])->name('post.like');
 
 
 
