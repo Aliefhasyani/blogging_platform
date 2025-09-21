@@ -120,5 +120,12 @@ class PostController extends Controller
         return redirect()->route('show.post',$parentComment->post_id);
     }
 
+    public function edit($id){
+        $post = Post::with('tag')->findOrFail($id);
+        $tags = Tag::all();
+
+        return view('post_edit',compact('post','tags'));
+    }
+
   
 }

@@ -318,7 +318,7 @@
             </div>
             <h5>No Posts Found</h5>
             <p>Try creating a new post or check back later.</p>
-            <a href="#" class="create-post-btn">
+            <a href="{{route('post.create')}}" class="create-post-btn">
               <i class="fas fa-plus me-2"></i> Create Post
             </a>
           </div>

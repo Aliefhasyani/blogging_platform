@@ -284,9 +284,7 @@
                                     <button class="btn-icon" title="Edit User">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="btn-icon" title="View Profile">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
+                               
                                     <button class="btn-icon" title="Delete User">
                                         <i class="fas fa-trash"></i>
                                     </button>

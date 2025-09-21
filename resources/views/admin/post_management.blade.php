@@ -316,7 +316,7 @@
                                         <td>
                                             <div class="actions">
                                                 <a href="{{route('show.post',$post->id)}}" class="btn-icon"><i class="fas fa-eye"></i></a>
-                                                <a href="#" class="btn-icon"><i class="fas fa-edit"></i></a>
+                                                <a href="{{route('adminPost.edit',$post->id)}}" class="btn-icon"><i class="fas fa-edit"></i></a>
                                                 <a href="#" class="btn-icon"><i class="fas fa-trash"></i></a>
                                             </div>
                                         </td>
