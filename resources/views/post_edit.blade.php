@@ -319,7 +319,7 @@
                     <p>Update your thoughts and ideas</p>
                 </div>
                 
-                <form method="POST" action="">  
+                <form method="POST" action="{{route('adminPost.update',$post->id)}}">  
                     @csrf
                     @method('PUT')
                     

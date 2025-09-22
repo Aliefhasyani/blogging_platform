@@ -127,12 +127,46 @@ class PostController extends Controller
         return view('post_edit',compact('post','tags'));
     }
 
+    public function update(Request $request, $id){
+        $post = Post::findOrFail($id);
+
+        $data = $request->validate([
+            'name'    => 'required|string|max:255',
+            'content' => 'required|string',
+            'tags'    => 'required|array', 
+        
+        ]);
+
+
+        $post->update([
+            'name'    => $data['name'],
+            'content' => $data['content'],
+        ]);
+
+
+        $post->tag()->sync($data['tags']);
+
+        return redirect()->route('post.management');
+    }
+
+
     public function like($id){
         $post = Post::findOrFail($id);
 
         $post->increment('likes');
 
         return back();
+    }
+
+    public function home(){
+
+        $posts = Post::orderBy('likes','desc')->limit(4)->get();
+        $postsCount = Post::count();
+        $users = User::count();
+        $tags = Tag::count();
+        
+
+        return view('welcome',compact('posts','postsCount','users','tags'));
     }
 
   

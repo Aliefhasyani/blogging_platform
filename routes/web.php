@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Route;
 use PharIo\Manifest\Author;
 use PHPUnit\Framework\Attributes\PostCondition;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/',[PostController::class,'home'])->name('welcome');
+    
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -43,6 +43,7 @@ Route::get('/admin/users/create',[AdminController::class,'create'])->middleware(
 Route::post('/admin/users/store',[AdminController::class,'store'])->middleware(['auth','role:admin'])->name('user.store');
 
 Route::get('/admin/post/edit/{id}',[PostController::class,'edit'])->middleware(['auth','role:admin'])->name('adminPost.edit');
+Route::put('/admin/post/update/{id}',[PostController::class,'update'])->middleware(['auth','role:admin'])->name('adminPost.update');
 
 Route::get('/admin/post/create',[PostController::class,'create'])->name('post.create');
 Route::post('/admin/post/store',[PostController::class,'store'])->name('post.store');
