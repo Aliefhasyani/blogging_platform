@@ -160,7 +160,7 @@ class PostController extends Controller
 
     public function home(){
 
-        $posts = Post::orderBy('likes','desc')->limit(4)->get();
+        $posts = Post::orderBy('likes','desc')->limit(6)->get();
         $postsCount = Post::count();
         $users = User::count();
         $tags = Tag::count();
