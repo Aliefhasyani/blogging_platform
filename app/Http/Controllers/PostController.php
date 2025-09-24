@@ -100,7 +100,7 @@ class PostController extends Controller
 
         $post->tag()->attach($validated['tag']);
 
-        return redirect()->route('post.create');
+        return redirect()->route('post.create')->with('success','Post created');
     }
 
     public function createReply(Request $request,$id){

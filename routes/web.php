@@ -50,6 +50,8 @@ Route::post('/admin/post/store',[PostController::class,'store'])->name('post.sto
 
 Route::post('/post/like/{id}',[PostController::class,'like'])->middleware(['auth'])->name('post.like');
 
+Route::delete('/admin/user/delete/{id}',[AdminController::class,'destroy'])->middleware(['auth','role:admin'])->name('user.delete');
+
 
 
 

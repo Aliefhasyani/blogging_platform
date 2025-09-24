@@ -50,9 +50,13 @@
                                     <button class="btn-icon" title="Edit User">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="btn-icon" title="Delete User">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <form method="POST" action="{{route('user.delete',$user->id)}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn-icon" title="Delete User">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

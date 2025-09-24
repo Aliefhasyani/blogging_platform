@@ -55,6 +55,15 @@ class AdminController extends Controller
         return redirect()->route('user.management')->with('success','User created!');
     }
 
+    public function destroy($id){
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return redirect()->route('user.management')->with('success','User deleted');
+    }
+    
+
   
 
 }
