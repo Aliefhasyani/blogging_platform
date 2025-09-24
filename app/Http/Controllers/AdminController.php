@@ -52,7 +52,7 @@ class AdminController extends Controller
 
         User::create($validated);
 
-        return redirect()->route('user.management');
+        return redirect()->route('user.management')->with('success','User created!');
     }
 
   
