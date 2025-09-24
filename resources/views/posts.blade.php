@@ -93,71 +93,52 @@
 
 
 
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      @forelse($posts as $post)
-        <div class="card-hover bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col">
-          <div class="p-6 flex flex-col flex-grow">
+      <div class="row g-4">
+            @foreach($posts as $post)
+              <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm border-0 rounded-4 p-4 d-flex flex-column">
 
-            <h3 class="text-xl font-bold text-dark mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-              {{ $post->name }}
-            </h3>
+                  <div class="d-flex align-items-center mb-4">
+                    <div class="w-10 h-10 rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold me-3">
+                      {{ substr($post->user->name, 0, 1) }}
+                    </div>
+                    <div class="ms-3">
+                      <div class="fw-semibold text-dark">{{ $post->user->name }}</div>
+                      <small class="text-gray-500">{{ $post->created_at->diffForHumans() }}</small>
+                    </div>
+                  </div>
 
-   
-            <div class="flex flex-wrap gap-2 mb-4">
-              @foreach($post->tag as $tag)
-                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                  #{{ $tag->name }}
-                </span>
-              @endforeach
-            </div>
+                  <h3 class="fw-bold fs-5 mb-3 text-gray-800 hover:text-blue-600">
+                    {{ $post->name }}
+                  </h3>
 
+                  @if($post->tag->count() > 0)
+                    <div class="mb-3">
+                      @foreach($post->tag as $tag)
+                        <span class="badge bg-light text-primary border px-3 py-2 me-2 mb-2">#{{ $tag->name }}</span>
+                      @endforeach
+                    </div>
+                  @endif
 
-            <div class="flex items-center text-light text-sm mb-6">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white font-bold mr-3">
-                {{ substr($post->user->name, 0, 1) }}
+                  <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                    <a href="{{ route('show.post',$post->id) }}" class="btn btn-sm btn-primary rounded-pill px-4 fw-semibold">
+                      Read More <i class="fas fa-arrow-right ms-2 small"></i>
+                    </a>
+                    @if(Auth::check() && (Auth::id() == $post->user_id || Auth::user()->role == 'admin'))
+                      <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
+                        @csrf @method('DELETE')
+                        <button type="submit" onclick="return confirm('Delete this post?')" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                          <i class="fas fa-trash me-1"></i>Delete
+                        </button>
+                      </form>
+                    @endif
+                  </div>
+
+                </div>
               </div>
-              <span class="text-slate-800 font-bold">By {{ $post->user->name }}</span>
-            </div>
 
-    
-            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
-              <a href="{{ route('show.post',$post->id) }}" 
-                 class="inline-flex items-center px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-2xl 
-                        hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                Read More <i class="fas fa-arrow-right ml-2"></i>
-              </a>
-
-              @if(Auth::check() && (Auth::id() == $post->user_id || Auth::user()->role == 'admin'))
-                <form method="POST" action="{{ route('post.delete', $post->id) }}" class="inline">
-                  @method('DELETE')
-                  @csrf
-                  <button type="submit"
-                          onclick="return confirm('Are you sure you want to delete this post?')"
-                          class="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
-              @endif
-            </div>
+            @endforeach
           </div>
-        </div>
-      @empty
-   
-        <div class="col-span-full text-center py-20">
-          <div class="w-24 h-24 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-file-alt text-4xl text-gray-400"></i>
-          </div>
-          <h3 class="text-2xl font-bold text-dark mb-2">No Posts Yet</h3>
-          <p class="text-light mb-6">Be the first to share your thoughts with the community</p>
-          @auth
-            <a href="{{ route('post.create') }}" 
-               class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-2xl hover:bg-secondary transition-colors">
-              <i class="fas fa-plus mr-2"></i> Create Post
-            </a>
-          @endauth
-        </div>
-      @endforelse
-    </div>
 
 
     <div class="mt-12">
@@ -166,60 +147,7 @@
   </div>
 
 
-  <footer class="bg-dark text-white py-12 mt-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          <div class="flex items-center space-x-2 mb-4">
-            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <i class="fas fa-rocket text-white"></i>
-            </div>
-            <span class="text-xl font-bold">BlogSpace</span>
-          </div>
-          <p class="text-gray-400">
-            A community-driven platform for sharing knowledge and stories.
-          </p>
-        </div>
-        
-        <div>
-          <h4 class="font-semibold mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-gray-400">
-            <li><a href="{{ route('posts') }}" class="hover:text-white transition-colors">Browse Posts</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Popular Topics</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Community Guidelines</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 class="font-semibold mb-4">Resources</h4>
-          <ul class="space-y-2 text-gray-400">
-            <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 class="font-semibold mb-4">Connect</h4>
-          <div class="flex space-x-4">
-            <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-        <p>&copy; 2024 BlogSpace. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  
 
 </x-app-layout>
 
